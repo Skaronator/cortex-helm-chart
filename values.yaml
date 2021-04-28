@@ -607,6 +607,25 @@ ruler:
   extraVolumeMounts: []
   extraPorts: []
   env: []
+  # allow configuring rules via configmap in case you don't want to use the configs db
+  directories: {}
+    # tenant_foo:
+    #   rules1.txt: |
+    #     groups:
+    #       - name: should_fire
+    #         rules:
+    #           - alert: HighPercentageError
+    #             expr: |
+    #               sum(rate({app="foo", env="production"} |= "error" [5m])) by (job)
+    #                 /
+    #               sum(rate({app="foo", env="production"}[5m])) by (job)
+    #                 > 0.05
+    #             for: 10m
+    #             labels:
+    #               severity: warning
+    #             annotations:
+    #               summary: High error rate
+
 
 querier:
   replicas: 2

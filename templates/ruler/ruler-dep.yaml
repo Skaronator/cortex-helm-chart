@@ -75,6 +75,10 @@ spec:
             - name: storage
               mountPath: "/data"
               subPath: {{ .Values.ruler.persistence.subPath }}
+            {{- range $dir, $_ := .Values.ruler.directories }}
+            - name: {{ include "cortex.rulerRulesDirName" $dir }}
+              mountPath: /rules/{{ $dir }}
+            {{- end }}
           ports:
             - name: http-metrics
               containerPort: {{ .Values.config.server.http_listen_port }}
@@ -104,11 +108,16 @@ spec:
       volumes:
         - name: config
           secret:
-{{- if .Values.useExternalConfig }}
+            {{- if .Values.useExternalConfig }}
             secretName: {{ .Values.externalConfigSecretName }}
-{{- else }}
+            {{- else }}
             secretName: {{ template "cortex.fullname" . }}
-{{- end }}
+            {{- end }}
+        {{- range $dir, $_ := .Values.ruler.directories }}
+        - name: {{ include "cortex.rulerRulesDirName" $dir }}
+          configMap:
+            name: {{ include "cortex.rulerFullname" $ }}-{{ include "cortex.rulerRulesDirName" $dir }}
+        {{- end }}
 {{- if .Values.ruler.extraVolumes }}
 {{ toYaml .Values.ruler.extraVolumes | indent 8}}
 {{- end }}

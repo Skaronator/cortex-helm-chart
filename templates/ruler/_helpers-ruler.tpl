@@ -21,3 +21,10 @@ ruler selector labels
 {{ include "cortex.selectorLabels" . }}
 app.kubernetes.io/component: ruler
 {{- end }}
+
+{{/*
+format rules dir
+*/}}
+{{- define "cortex.rulerRulesDirName" -}}
+rules-{{ . | replace "_" "-" | trimSuffix "-" }}
+{{- end }}
