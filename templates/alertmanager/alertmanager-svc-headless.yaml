@@ -4,7 +4,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "cortex.alertmanagerFullname" . }}
+  name: {{ include "cortex.alertmanagerFullname" . }}-headless
   labels:
     {{- include "cortex.alertmanagerLabels" . | nindent 4 }}
     {{- with .Values.alertmanager.service.labels }}
