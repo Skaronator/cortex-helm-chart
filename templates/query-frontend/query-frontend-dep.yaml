@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "cortex.ingesterLabels" . | nindent 8 }}
+        {{- include "cortex.queryFrontendLabels" . | nindent 8 }}
         {{- with .Values.query_frontend.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
