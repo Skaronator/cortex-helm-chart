@@ -77,7 +77,7 @@ spec:
               subPath: {{ .Values.ruler.persistence.subPath }}
             {{- range $dir, $_ := .Values.ruler.directories }}
             - name: {{ include "cortex.rulerRulesDirName" $dir }}
-              mountPath: /rules/{{ $dir }}
+              mountPath: /etc/cortex/rules/{{ $dir }}
             {{- end }}
           ports:
             - name: http-metrics
