@@ -171,6 +171,7 @@ rbac:
   pspEnabled: true
 
 alertmanager:
+  enabled: true
   replicas: 1
 
   statefulSet:
@@ -540,6 +541,7 @@ ingester:
   env: []
 
 ruler:
+  enabled: true
   replicas: 1
 
   service:
@@ -832,6 +834,7 @@ table_manager:
   env: []
 
 configs:
+  enabled: true
   replicas: 1
 
   service:

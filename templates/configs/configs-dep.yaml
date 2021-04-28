@@ -1,3 +1,4 @@
+{{- if .Values.configs.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,7 +26,7 @@ spec:
         checksum/config: {{ .Values.externalConfigVersion }}
 {{- else }}
         checksum/config: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
-{{- end}}
+{{- end }}
         {{- with .Values.configs.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -116,4 +117,5 @@ spec:
         {{- end }}
 {{- if .Values.configs.extraVolumes }}
 {{ toYaml .Values.configs.extraVolumes | indent 8}}
+{{- end }}
 {{- end }}
