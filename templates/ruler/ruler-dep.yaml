@@ -51,12 +51,9 @@ spec:
           args:
             - "-target=ruler"
             - "-config.file=/etc/cortex/cortex.yaml"
-            - "-ruler.configs.url=http://{{ template "cortex.fullname" . }}-configs.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:{{ .Values.config.server.http_listen_port }}"
-            {{- if .Values.config.ruler.enable_alertmanager_discovery }}
-            - "-ruler.alertmanager-discovery=true"
-            - "-ruler.alertmanager-url=http://_http-metrics._tcp.{{ template "cortex.name" . }}-alertmanager-headless/api/prom/alertmanager/"
-            {{- else }}
-            - "-ruler.alertmanager-url=http://{{ template "cortex.fullname" . }}-alertmanager.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:{{ .Values.config.server.http_listen_port }}/api/prom/alertmanager/"
+            # Looks like there is no config.yaml option for this so it stays in the args for now...
+            {{- if .Values.configs.enabled }}
+            - "-ruler.configs.url=http://{{ template "cortex.fullname" . }}-configs.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080"
             {{- end }}
             {{- include "cortex.memcached" . | nindent 12}}
           {{- range $key, $value := .Values.ruler.extraArgs }}
@@ -73,7 +70,7 @@ spec:
               subPath: {{ .Values.ruler.persistence.subPath }}
           ports:
             - name: http-metrics
-              containerPort: {{ .Values.config.server.http_listen_port }}
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.ruler.livenessProbe | nindent 12 }}

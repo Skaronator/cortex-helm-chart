@@ -63,10 +63,10 @@ spec:
               mountPath: /etc/cortex
           ports:
             - name: http-metrics
-              containerPort: {{ .Values.config.server.http_listen_port }}
+              containerPort: 8080
               protocol: TCP
             - name: grpc
-              containerPort: {{ .Values.config.server.grpc_listen_port }}
+              containerPort: 9095
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.query_frontend.livenessProbe | nindent 12 }}

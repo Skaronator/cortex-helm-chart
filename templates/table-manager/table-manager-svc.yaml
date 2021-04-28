@@ -1,4 +1,4 @@
-{{- if ne .Values.config.storage.engine "blocks" -}}
+{{- if ne (include "cortex.config" .) "blocks" -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,7 +13,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: {{ .Values.config.server.http_listen_port }}
+    - port: 8080
       protocol: TCP
       name: http-metrics
       targetPort: http-metrics

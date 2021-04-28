@@ -74,7 +74,7 @@ spec:
               {{- end }}
           ports:
             - name: http-metrics
-              containerPort: {{ .Values.config.server.http_listen_port }}
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.ingester.livenessProbe | nindent 12 }}

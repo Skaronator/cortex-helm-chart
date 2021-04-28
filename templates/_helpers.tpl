@@ -85,7 +85,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create configuration parameters for memcached configuration
 */}}
 {{- define "cortex.memcached" -}}
-{{- if and (eq .Values.config.storage.engine "blocks") (index .Values "tags" "blocks-storage-memcached") }}
+{{- if and (eq (include "cortex.config" .) "blocks") (index .Values "tags" "blocks-storage-memcached") }}
 - "-blocks-storage.bucket-store.index-cache.backend=memcached"
 - "-blocks-storage.bucket-store.index-cache.memcached.addresses=dnssrvnoa+_memcache._tcp.{{ .Release.Name }}-memcached-blocks-index.{{ .Release.Namespace }}.svc:11211"
 - "-blocks-storage.bucket-store.chunks-cache.backend=memcached"
@@ -93,13 +93,13 @@ Create configuration parameters for memcached configuration
 - "-blocks-storage.bucket-store.metadata-cache.backend=memcached"
 - "-blocks-storage.bucket-store.metadata-cache.memcached.addresses=dns+{{ .Release.Name }}-memcached-blocks-metadata.{{ .Release.Namespace }}.svc:11211"
 {{- end -}}
-{{- if and (ne .Values.config.storage.engine "blocks") .Values.memcached.enabled }}
+{{- if and (ne (include "cortex.config" .) "blocks") .Values.memcached.enabled }}
 - -store.chunks-cache.memcached.addresses=dns+{{ .Release.Name }}-memcached.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:11211
 {{- end -}}
-{{- if and (ne .Values.config.storage.engine "blocks") (index .Values "memcached-index-read" "enabled") }}
+{{- if and (ne (include "cortex.config" .) "blocks") (index .Values "memcached-index-read" "enabled") }}
 - -store.index-cache-read.memcached.addresses=dns+{{ .Release.Name }}-memcached-index-read.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:11211
 {{- end -}}
-{{- if and (ne .Values.config.storage.engine "blocks") (index .Values "memcached-index-write" "enabled") }}
+{{- if and (ne (include "cortex.config" .) "blocks") (index .Values "memcached-index-write" "enabled") }}
 - -store.index-cache-write.memcached.addresses=dns+{{ .Release.Name }}-memcached-index-write.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:11211
 {{- end -}}
 {{- end -}}
@@ -112,3 +112,11 @@ Create configuration for frontend memcached configuration
 - "-frontend.memcached.addresses=dns+{{ template "cortex.fullname" . }}-memcached-frontend.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:11211"
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+.Values.config as yaml
+*/}}
+{{- define "cortex.config" -}}
+{{- toYaml (tpl .Values.config .) -}}
+{{- end }}

@@ -65,7 +65,7 @@ spec:
               subPath: {{ .Values.distributor.persistence.subPath }}
           ports:
             - name: http-metrics
-              containerPort: {{ .Values.config.server.http_listen_port }}
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.distributor.livenessProbe | nindent 12 }}

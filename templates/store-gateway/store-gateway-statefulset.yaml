@@ -1,4 +1,4 @@
-{{- if eq .Values.config.storage.engine "blocks" -}}
+{{- if eq (include "cortex.config" .) "blocks" -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -117,10 +117,10 @@ spec:
               {{- end }}
           ports:
             - name: http-metrics
-              containerPort: {{ .Values.config.server.http_listen_port }}
+              containerPort: 8080
               protocol: TCP
             - name: grpc
-              containerPort: {{ .Values.config.server.grpc_listen_port }}
+              containerPort: 9095
               protocol: TCP            
           livenessProbe:
             {{- toYaml .Values.store_gateway.livenessProbe | nindent 12 }}

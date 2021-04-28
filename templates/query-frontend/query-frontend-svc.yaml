@@ -12,11 +12,11 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: {{ .Values.config.server.http_listen_port }}
+    - port: 8080
       protocol: TCP
       name: http-metrics
       targetPort: http-metrics
-    - port: {{ .Values.config.server.grpc_listen_port }}
+    - port: 9095
       protocol: TCP
       name: grpclb
       targetPort: grpc

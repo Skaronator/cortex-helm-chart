@@ -52,7 +52,7 @@ spec:
           args:
             - "-target=alertmanager"
             - "-config.file=/etc/cortex/cortex.yaml"
-            - "-alertmanager.configs.url=http://{{ template "cortex.fullname" . }}-configs.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:{{ .Values.config.server.http_listen_port }}"
+            - "-alertmanager.configs.url=http://{{ template "cortex.fullname" . }}-configs.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:8080"
           {{- range $key, $value := .Values.alertmanager.extraArgs }}
             - "-{{ $key }}={{ $value }}"
           {{- end }}
@@ -67,7 +67,7 @@ spec:
               subPath: {{ .Values.alertmanager.persistence.subPath }}
           ports:
             - name: http-metrics
-              containerPort: {{ .Values.config.server.http_listen_port }}
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.alertmanager.livenessProbe | nindent 12 }}

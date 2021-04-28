@@ -1,4 +1,4 @@
-{{- if ne .Values.config.storage.engine "blocks" -}}
+{{- if ne (include "cortex.config" .) "blocks" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -66,7 +66,7 @@ spec:
               subPath: {{ .Values.table_manager.persistence.subPath }}
           ports:
             - name: http-metrics
-              containerPort: {{ .Values.config.server.http_listen_port }}
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             {{- toYaml .Values.table_manager.livenessProbe | nindent 12 }}
