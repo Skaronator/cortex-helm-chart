@@ -6,6 +6,7 @@ metadata:
   name: {{ include "cortex.compatorFullname" . }}
   labels:
     {{- include "cortex.compatorLabels" . | nindent 4 }}
+    app.kubernetes.io/part-of: memberlist
   annotations:
     {{- toYaml .Values.compactor.annotations | nindent 4 }}
 spec:
@@ -42,6 +43,7 @@ spec:
     metadata:
       labels:
         {{- include "cortex.compatorLabels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
         {{- with .Values.compactor.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

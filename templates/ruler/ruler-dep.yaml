@@ -5,6 +5,7 @@ metadata:
   name: {{ include "cortex.rulerFullname" . }}
   labels:
     {{- include "cortex.rulerLabels" . | nindent 4 }}
+    app.kubernetes.io/part-of: memberlist
   annotations:
     {{- toYaml .Values.ruler.annotations | nindent 4 }}
 spec:
@@ -18,6 +19,7 @@ spec:
     metadata:
       labels:
         {{- include "cortex.rulerLabels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
         {{- with .Values.ruler.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

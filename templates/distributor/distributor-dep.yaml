@@ -4,6 +4,7 @@ metadata:
   name: {{ include "cortex.distributorFullname" . }}
   labels:
     {{- include "cortex.distributorLabels" . | nindent 4 }}
+    app.kubernetes.io/part-of: memberlist
   annotations:
     {{- toYaml .Values.distributor.annotations | nindent 4 }}
 spec:
@@ -17,6 +18,7 @@ spec:
     metadata:
       labels:
         {{- include "cortex.distributorLabels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
         {{- with .Values.distributor.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

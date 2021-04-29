@@ -5,6 +5,7 @@ metadata:
   name: {{ include "cortex.storeGatewayFullname" . }}
   labels:
     {{- include "cortex.storeGatewayLabels" . | nindent 4 }}
+    app.kubernetes.io/part-of: memberlist
   annotations:
     {{- toYaml .Values.store_gateway.annotations | nindent 4 }}
 spec:
@@ -41,6 +42,7 @@ spec:
     metadata:
       labels:
         {{- include "cortex.storeGatewayLabels" . | nindent 8 }}
+        app.kubernetes.io/part-of: memberlist
         {{- with .Values.store_gateway.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

@@ -141,9 +141,9 @@ config:
       health_check_ingesters: true
   memberlist:
     join_members: []
-    ## add here the service name of the ingesters
+    ## add here the service name of the memberlist
     ## if using memberlist discovery, eg:
-    #  - cortex-ingester-headless
+    #  - cortex-memberlist
   querier:
     active_query_tracker_dir: /data/cortex/querier
     query_ingesters_within: 12h
